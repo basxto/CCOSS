@@ -43,6 +43,10 @@
 #include "Writer.h"
 #include "System.h"
 
+#ifdef CCOSS_LINUX
+#include "gamemode_client.h"
+#endif
+
 #include <math.h>
 
 #include <unzip.h>
@@ -2700,6 +2704,17 @@ int main(int argc, char *argv[])
     g_ConsoleMan.SaveAllText("LogConsole.txt");
 #endif 
 
+    // Feral's gamemode support
+#ifdef CCOSS_LINUX
+    if (gamemode_request_start() < 0) {
+        std::string msg = "LINUX GAMEMODE WAS NOT ENABLED (";
+        msg.append(gamemode_error_string());
+        msg.append(")");
+    } else {
+        g_ConsoleMan.PrintString("LINUX GAMEMODE WAS ENABLED");
+    }
+#endif
+
 // TODO: REMOVE
 /*
     if (g_LuaMan.RunScriptFile("Base.rte/Scripts/Test.lua"))
@@ -2787,6 +2802,10 @@ int main(int argc, char *argv[])
     g_LuaMan.Destroy();
     ContentFile::FreeAllLoaded();
     g_ConsoleMan.Destroy();
+
+#ifdef CCOSS_LINUX
+    gamemode_request_end();
+#endif
 
 #if defined(STEAM_BUILD)
 	g_SteamUGCMan.Destroy();
