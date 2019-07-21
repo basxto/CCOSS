@@ -2710,6 +2710,7 @@ int main(int argc, char *argv[])
         std::string msg = "LINUX GAMEMODE WAS NOT ENABLED (";
         msg.append(gamemode_error_string());
         msg.append(")");
+        g_ConsoleMan.PrintString(msg);
     } else {
         g_ConsoleMan.PrintString("LINUX GAMEMODE WAS ENABLED");
     }
