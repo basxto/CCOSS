@@ -49,6 +49,7 @@
 
 #include <thread>
 
+#include <getopt.h>
 
 #if defined(__APPLE__)
 #include "OsxUtil.h"
@@ -137,6 +138,7 @@ enum SLIDES
 };
 
 volatile bool g_Quit = false;
+bool g_LogToCli = false;
 bool g_InActivity = false;
 bool g_ResetActivity = false;
 bool g_ResumeActivity = false;
@@ -251,6 +253,34 @@ void _LoadingSplashProgressReport(std::string reportString, bool newItem = false
 
 void LoadingSplashProgressReport(std::string reportString, bool newItem = false)
 {
+	if(g_LogToCli)
+	{
+		if (newItem)
+		{
+			std::cout << std::endl;
+		}
+		// overwrite current line
+		std::cout << "\r";
+		size_t startPos = 0;
+		// convert characters to unicode
+		// just make sure to really overwrite all old output
+		std::string unicoded = reportString + "          ";
+		// also uses terminal coloring
+		std::string to = "\033[1;32m✓\033[0;0m";
+		while ((startPos = unicoded.find(-42, startPos)) != std::string::npos)
+		{
+			unicoded.replace(startPos, 1, to);
+			startPos += to.length();
+		}
+		startPos = 0;
+		to = "\033[1;33m•\033[0;0m";
+		while ((startPos = unicoded.find(-43, startPos)) != std::string::npos)
+		{
+			unicoded.replace(startPos, 1, to);
+			startPos += to.length();
+		}
+		std::cout << unicoded;
+	}
 	if (g_pLoadingGUI)
 	{
 		g_UInputMan.Update();
@@ -304,7 +334,6 @@ bool LoadDataModules()
 {
 // TODO: REMOVE
 //    return true;
-
     // Loading splash screen
     g_FrameMan.ClearBackBuffer32();
 //    g_FrameMan.LoadPalette("Base.rte/palette.bmp");
@@ -2591,9 +2620,26 @@ bool HandleMainArgs(int argc, char *argv[], int &appExitVar)
 
 int main(int argc, char *argv[])
 {
+    int opt;
+    char* help = "Usage: %s [-c] [-h]\n";
     ///////////////////////////////////////////////////////////////////
-	// Change to working directory (necessary for some platforms)
-	g_System.ChangeWorkingDirectory();
+    // Change to working directory (necessary for some platforms)
+    g_System.ChangeWorkingDirectory();
+
+    while ((opt = getopt(argc, argv, "ch")) != -1) {
+        switch (opt) {
+        case 'c':
+            g_LogToCli = true;
+            break;
+        case 'h':
+            printf(help, argv[0]);
+            exit(0);
+            break;
+        default: /* '?' */
+            fprintf(stderr, help, argv[0]);
+            exit(EXIT_FAILURE);
+        }
+    }
 
 #if defined(__APPLE__)
 	OsxUtil::Create();
