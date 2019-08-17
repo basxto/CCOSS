@@ -326,6 +326,22 @@ void UInputMan::InputScheme::SetPreset(int schemePreset)
 		m_aInputMapping[INPUT_L_RIGHT].SetDirection(0, 0, JOYDIR_TWO);
 		m_aInputMapping[INPUT_L_RIGHT].SetPresetDesc("L Thumbstick Right");
 
+		#if defined(__linux__)
+		// xpad compatibility
+		m_aInputMapping[INPUT_R_UP].SetDirection(2, 0, JOYDIR_ONE);
+		m_aInputMapping[INPUT_R_UP].SetPresetDesc("R Thumbstick Up");
+		m_aInputMapping[INPUT_R_DOWN].SetDirection(2, 0, JOYDIR_TWO);
+		m_aInputMapping[INPUT_R_DOWN].SetPresetDesc("R Thumbstick Down");
+		m_aInputMapping[INPUT_R_LEFT].SetDirection(1, 1, JOYDIR_ONE);
+		m_aInputMapping[INPUT_R_LEFT].SetPresetDesc("R Thumbstick Left");
+		m_aInputMapping[INPUT_R_RIGHT].SetDirection(1, 1, JOYDIR_TWO);
+		m_aInputMapping[INPUT_R_RIGHT].SetPresetDesc("R Thumbstick Right");
+
+		m_aInputMapping[INPUT_FIRE].SetDirection(2, 1, JOYDIR_TWO);
+		m_aInputMapping[INPUT_FIRE].SetPresetDesc("R Trigger");
+		m_aInputMapping[INPUT_PIEMENU].SetDirection(1, 0, JOYDIR_TWO);
+		m_aInputMapping[INPUT_PIEMENU].SetPresetDesc("L Trigger");
+		#else
 		m_aInputMapping[INPUT_R_UP].SetDirection(1, 0, JOYDIR_ONE);
 		m_aInputMapping[INPUT_R_UP].SetPresetDesc("R Thumbstick Up");
 		m_aInputMapping[INPUT_R_DOWN].SetDirection(1, 0, JOYDIR_TWO);
@@ -339,6 +355,7 @@ void UInputMan::InputScheme::SetPreset(int schemePreset)
 		m_aInputMapping[INPUT_FIRE].SetPresetDesc("R Trigger");
 		m_aInputMapping[INPUT_PIEMENU].SetDirection(0, 2, JOYDIR_TWO);
 		m_aInputMapping[INPUT_PIEMENU].SetPresetDesc("L Trigger");
+		#endif
 
 		m_aInputMapping[INPUT_JUMP].SetDirection(0, 1, JOYDIR_ONE);
 		m_aInputMapping[INPUT_JUMP].SetPresetDesc("L Thumbstick Up");
@@ -381,19 +398,28 @@ void UInputMan::InputScheme::SetPreset(int schemePreset)
         m_aInputMapping[INPUT_L_DOWN].SetDirection(0, 1, JOYDIR_TWO);
         m_aInputMapping[INPUT_L_LEFT].SetDirection(0, 0, JOYDIR_ONE);
         m_aInputMapping[INPUT_L_RIGHT].SetDirection(0, 0, JOYDIR_TWO);
+        #if defined(__linux__)
+        // xpad compatibility
+        m_aInputMapping[INPUT_R_UP].SetDirection(2, 0, JOYDIR_ONE);
+        m_aInputMapping[INPUT_R_DOWN].SetDirection(2, 0, JOYDIR_TWO);
+        m_aInputMapping[INPUT_R_LEFT].SetDirection(1, 1, JOYDIR_ONE);
+        m_aInputMapping[INPUT_R_RIGHT].SetDirection(1, 1, JOYDIR_TWO);
+        m_aInputMapping[INPUT_FIRE].SetDirection(2, 1, JOYDIR_TWO);
+        m_aInputMapping[INPUT_PIEMENU].SetDirection(1, 0, JOYDIR_TWO);
+        #else
         m_aInputMapping[INPUT_R_UP].SetDirection(2, 0, JOYDIR_ONE);
         m_aInputMapping[INPUT_R_DOWN].SetDirection(2, 0, JOYDIR_TWO);
         m_aInputMapping[INPUT_R_LEFT].SetDirection(1, 0, JOYDIR_ONE);
         m_aInputMapping[INPUT_R_RIGHT].SetDirection(1, 0, JOYDIR_TWO);
         m_aInputMapping[INPUT_FIRE].SetDirection(0, 2, JOYDIR_ONE);
+        m_aInputMapping[INPUT_PIEMENU].SetDirection(0, 2, JOYDIR_TWO);
+        #endif
         m_aInputMapping[INPUT_JUMP].SetDirection(0, 1, JOYDIR_ONE);
         m_aInputMapping[INPUT_CROUCH].SetDirection(0, 1, JOYDIR_TWO);
-        m_aInputMapping[INPUT_PIEMENU].SetDirection(0, 2, JOYDIR_TWO);
-
 
         m_aInputMapping[INPUT_WEAPON_CHANGE_PREV].SetDirection(3, 0, JOYDIR_ONE);
         m_aInputMapping[INPUT_WEAPON_CHANGE_NEXT].SetDirection(3, 0, JOYDIR_TWO);
-		m_aInputMapping[INPUT_WEAPON_RELOAD].SetDirection(3, 1, JOYDIR_ONE);
+        m_aInputMapping[INPUT_WEAPON_RELOAD].SetDirection(3, 1, JOYDIR_ONE);
         m_aInputMapping[INPUT_WEAPON_PICKUP].SetDirection(3, 1, JOYDIR_TWO);
     }
 }

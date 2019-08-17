@@ -12,6 +12,7 @@
 *.a
 *makefile*
 *Makefile*
+!Makefile
 .libs
 .deps
 ScreenDump*.bmp
@@ -87,3 +88,4 @@ MemCleanupInfo.txt
 
 
 /abortscreen.bmp
+cortex
