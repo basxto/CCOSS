@@ -58,8 +58,8 @@ OBJS=$(foreach src,$(SYSTEM_SRCS),$(OBJ_DIR)/System/$(src).o) $(foreach src,$(EN
 .PHONY: all
 all: cortex
 
-cortex: $(OBJS) $(OBJ_DIR)/libluabind.a $(OBJ_DIR)/libraknet.a
-	$(CXX) $(CPPFLAGS) -o $@ Main.cpp $^ $(LDFLAGS)
+cortex: Main.cpp $(OBJS) $(OBJ_DIR)/libluabind.a $(OBJ_DIR)/libraknet.a
+	$(CXX) $(CPPFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(OBJ_DIR)/libluabind.a: $(foreach src,$(LUABIND_SRCS),$(OBJ_DIR)/LUABIND/$(src).o)
 	ar rcs $@ $^
