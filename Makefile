@@ -1,5 +1,5 @@
-CC=c++
-CXX=c++
+CC=arm-linux-gnueabihf-c++
+CXX=arm-linux-gnueabihf-c++
 
 PREPARED_DIR=
 OBJ_DIR=objs
